@@ -14,8 +14,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.alxgrbdev.bookshelf.R
 import com.alxgrbdev.bookshelf.ui.screen.MainScreen
+import com.alxgrbdev.bookshelf.ui.viewmodel.BookshelfViewModel
 
 @ExperimentalMaterial3Api
 @Composable
@@ -30,8 +32,9 @@ fun BookshelfApp() {
                 .fillMaxSize()
                 .padding(it)
         ) {
+            val bookshelfViewModel: BookshelfViewModel = viewModel(factory = BookshelfViewModel.Factory)
             MainScreen(
-
+                bookshelfUiState = bookshelfViewModel.bookshelfUiState
             )
         }
     }

@@ -13,9 +13,10 @@ import com.alxgrbdev.bookshelf.BookshelfApplication
 import com.alxgrbdev.bookshelf.data.BookshelfRepository
 import com.alxgrbdev.bookshelf.model.Book
 import kotlinx.coroutines.launch
+import java.io.IOException
 
 sealed interface BookshelfUiState {
-    data class Success(val books: List<Book>) : BookshelfUiState
+    data class Success(val books: MutableList<Book>) : BookshelfUiState
     object Error : BookshelfUiState
     object Loading : BookshelfUiState
 }
@@ -31,7 +32,12 @@ class BookshelfViewModel(private val bookshelfRepository: BookshelfRepository) :
 
     fun getBooks() {
         viewModelScope.launch {
-            bookshelfUiState = BookshelfUiState.Success(bookshelfRepository.getBooks())
+            bookshelfUiState = BookshelfUiState.Loading
+            bookshelfUiState = try {
+                BookshelfUiState.Success(bookshelfRepository.getBooks())
+            } catch (e: IOException) {
+                BookshelfUiState.Error
+            }
         }
     }
 
