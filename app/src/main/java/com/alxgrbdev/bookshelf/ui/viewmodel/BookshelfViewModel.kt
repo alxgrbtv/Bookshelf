@@ -13,6 +13,7 @@ import com.alxgrbdev.bookshelf.BookshelfApplication
 import com.alxgrbdev.bookshelf.data.BookshelfRepository
 import com.alxgrbdev.bookshelf.model.Book
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import java.io.IOException
 
 sealed interface BookshelfUiState {
@@ -36,6 +37,8 @@ class BookshelfViewModel(private val bookshelfRepository: BookshelfRepository) :
             bookshelfUiState = try {
                 BookshelfUiState.Success(bookshelfRepository.getBooks())
             } catch (e: IOException) {
+                BookshelfUiState.Error
+            } catch (e: HttpException) {
                 BookshelfUiState.Error
             }
         }
