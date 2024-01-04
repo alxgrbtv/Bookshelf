@@ -12,6 +12,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -34,7 +35,8 @@ fun BookshelfApp() {
         ) {
             val bookshelfViewModel: BookshelfViewModel = viewModel(factory = BookshelfViewModel.Factory)
             MainScreen(
-                bookshelfUiState = bookshelfViewModel.bookshelfUiState
+                bookshelfUiState = bookshelfViewModel.bookshelfUiState,
+                retryAction = bookshelfViewModel::getBooks
             )
         }
     }
